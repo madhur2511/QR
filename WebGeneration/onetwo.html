@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>A = B + C</title>		
+		<style type="text/css">
+			
+			body{
+				padding:20px;
+			}
+		
+			div#outer{
+				padding-left:40px;
+			}
+		
+			div#block1{
+				//border:1px solid black;
+				height:50px;
+				width:287px;
+				padding:2px;
+				position:relative;
+				float:left;
+			}
+			
+			div#block2{
+				//border:1px solid black;
+				height:50px;
+				width:287px;
+				padding:2px;
+				position:relative;
+				left:50px;
+				float:left;
+			}
+		
+			div#block3{
+				//border:1px solid black;
+				height:50px;
+				width:287px;
+				padding:2px;
+				position:relative;
+				left:35px;
+				float:left;
+			}
+		
+		
+			span{
+			font: bold 15px Arial,sans-serif;
+			}
+			
+			span#equal{
+				font: bold 25px Arial,sans-serif;
+				position:relative;
+				top:13px;
+				left:-40px;
+				float:left;
+			}
+			
+			input#gen{
+				position:relative;
+				top:10px;
+			}
+			
+			div#qrsize{
+				position:relative;
+				left:-60px;
+				top:15px;
+			}
+
+			
+		</style>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="jquery.qrcode.js"></script>
+		<script type="text/javascript" src="qrcode.js"></script>
+		
+		<script type="text/javascript">
+			function generate_code(){
+				lhs1_upper = document.getElementById("lhs1_upper");
+				lhs1_lower = document.getElementById("lhs1_lower");
+				rhs1_upper = document.getElementById("rhs1_upper");
+				rhs1_lower = document.getElementById("rhs1_lower");
+				rhs2_upper = document.getElementById("rhs2_upper");
+				rhs2_lower = document.getElementById("rhs2_lower");
+				
+				get_radios();
+				
+				if(!check_values())
+					return;
+				
+				form_equation();
+				
+				console.log(eq);
+				
+				qrsize = getSize();
+				
+				create_code(eq,qrsize);
+				
+			}
+			
+			function getSize(){
+				qrsize_arr = document.getElementsByName("qrsize");
+				for(i in qrsize_arr){
+					if(qrsize_arr[i].checked)
+						qrsize = qrsize_arr[i].value;
+				}
+				if(qrsize == "small")
+					return 32;
+				else if(qrsize == "large")
+					return 96;
+				else
+					return 64;
+			}
+			
+			function create_code(eq,qrsize){
+				div = document.createElement("div");
+				div.id = "qr";
+				$(div).qrcode({width: qrsize,height: qrsize,text:eq});
+				
+				canvas = div.firstChild;
+				image = convertCanvasToImage(canvas);
+				img = document.getElementById("qrcode");
+				img.src = image.src;
+			}
+			
+			function form_equation(){
+				eq = "";
+
+				lhs1_sign_val = lhs1_sign==0?"+":"-";
+				eq = eq.concat(lhs1_sign_val+";");
+				eq = eq.concat(lhs1_upper.value + "/" + lhs1_lower.value + ";");
+
+				eq = eq.concat("=;");
+				
+				rhs1_sign_val = rhs1_sign==0?"+":"-";
+				eq = eq.concat(rhs1_sign_val+";");
+				eq = eq.concat(rhs1_upper.value + "/" + rhs1_lower.value + ";");
+
+				rhs2_sign_val = rhs2_sign==0?"+":"-";
+				eq = eq.concat(rhs2_sign_val+";");
+				eq = eq.concat(rhs2_upper.value + "/" + rhs2_lower.value);
+				
+				return eq;
+			}							
+			
+			
+			function get_radios(){
+				lhs1_arr = document.getElementsByName("lhs1_sign");
+				for(i in lhs1_arr){
+					if(lhs1_arr[i].checked)
+						lhs1_sign = i;
+				}
+				rhs1_arr = document.getElementsByName("rhs1_sign");
+				for(i in rhs1_arr){
+					if(rhs1_arr[i].checked)
+						rhs1_sign = i;
+				}
+				rhs2_arr = document.getElementsByName("rhs2_sign");
+				for(i in rhs2_arr){
+					if(rhs2_arr[i].checked)
+						rhs2_sign = i;
+				}
+			}
+			
+			
+			function check_values(){
+				if( lhs1_upper.value == "" || rhs1_upper.value == "" || rhs2_upper.value == "" ){
+					return false;
+				}
+				if(lhs1_lower.value == "")
+					lhs1_lower.value = 1;
+				
+				if(rhs1_lower.value == "")
+					rhs1_lower.value = 1;
+				
+				if(rhs2_lower.value == "")
+					rhs2_lower.value = 1;
+
+				return true;
+			}
+
+			
+			function convertCanvasToImage(canvas) {
+				var image = new Image();
+				image.src = canvas.toDataURL("image/png");
+				return image;
+			}
+		</script>
+		
+	</head>
+	<body>
+		<h2>A = B + C Type</h2><hr/>
+		(Image once generated can be saved on local machine)
+		<br/><br/><br/>
+		<div id="outer">
+			<div id="block1">
+				<span style="position:relative;top:7px;">+<input type="radio" name="lhs1_sign" value="lhs1_plus" id="lhs1_plus" checked/></span>
+				<span style="position:relative;top:24px;left:-30px;">-<input type="radio" name="lhs1_sign" value="lhs1_minus" id="lhs1_minus"/></span>
+				<input type="text" id="lhs1_upper" size="12" style="position:relative;left:-25px"/>
+				<input type="text" id="lhs1_lower" size="12" style="position:relative;top:24px;left:-138px"/>
+			</div>
+			
+			<span id="equal">=</span>
+		
+			<div id="block2">
+				<span style="position:relative;top:7px;">+<input type="radio" name="rhs1_sign" value="rhs1_plus" id="rhs1_plus" checked/></span>
+				<span style="position:relative;top:24px;left:-30px;">-<input type="radio" name="rhs1_sign" value="rhs1_minus" id="rhs1_minus"/></span>
+				<input type="text" id="rhs1_upper" size="12" style="position:relative;left:-25px"/>
+				<input type="text" id="rhs1_lower" size="12" style="position:relative;top:24px;left:-138px"/>	
+			</div>
+			
+			
+			<div id="block3">
+				<span style="position:relative;top:7px;">+<input type="radio" name="rhs2_sign" value="rhs2_plus" id="rhs2_plus" checked/></span>
+				<span style="position:relative;top:24px;left:-30px;">-<input type="radio" name="rhs2_sign" value="rhs2_minus" id="rhs2_minus"/></span>
+				<input type="text" id="rhs2_upper" size="12" style="position:relative;left:-25px"/>
+				<input type="text" id="rhs2_lower" size="12" style="position:relative;top:24px;left:-138px"/>	
+			</div>
+		</div>
+		
+		<input type="button" id="gen" onclick="generate_code()" value="Generate"/>
+		<br/>
+		<div id="qrsize">	
+			<input type="radio" name="qrsize" value="small" id="small" /> Small
+			<input type="radio" name="qrsize" value="medium" id="medium" checked/> Medium
+			<input type="radio" name="qrsize" value="large" id="large" /> Large
+		</div>
+		
+		<br/><br/><br/>
+		
+		<img src="" id="qrcode" style="position:relative;top:50px;left:934px;"></img>
+		
+	</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">qr</string>
+    <string name="htu_activity">HTU</string>
+    <string name="welcome_string">Welcome!</string>
+	<string name="scan_string">Scan QR Code</string>
+	<string name="process_string">Process</string>
+	<string name="button_lower">Generate Lower</string>
+	<string name="button_similar">Generate Similar</string>
+	<string name="button_higher">Generate Higher</string>
+</resources>

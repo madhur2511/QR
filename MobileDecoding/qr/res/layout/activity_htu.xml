@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/problemView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/lowerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/problemView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp"
+        android:onClick="lower"
+        android:text="@string/button_lower" />
+
+    <Button
+        android:id="@+id/similarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lowerButton"
+        android:layout_below="@+id/lowerButton"
+        android:layout_marginTop="24dp"
+        android:onClick="similar"
+        android:text="@string/button_similar" />
+
+    <Button
+        android:id="@+id/higherButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/similarButton"
+        android:layout_below="@+id/similarButton"
+        android:layout_marginTop="29dp"
+        android:onClick="higher"
+        android:text="@string/button_higher" />
+    
+</RelativeLayout>
